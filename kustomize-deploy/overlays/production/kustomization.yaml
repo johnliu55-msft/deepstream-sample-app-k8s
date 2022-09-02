@@ -2,9 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 namePrefix: production-
-bases:
-- ../../base
 resources:
+- ../../base
 - prod-config.yaml
 patchesStrategicMerge:
 - deployment.yaml
