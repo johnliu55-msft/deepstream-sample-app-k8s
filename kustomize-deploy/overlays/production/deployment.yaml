@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepstream-sample-app
+spec:
+  strategy:
+    type: Recreate # Because we only have 1 GPU, need to kill all the pods before we can start a new one
+  template:
+    spec:
+      containers:
+      - name: deepstream-sample-app
+        volumeMounts:
+        - name: deepstream-config
+          readOnly: true
+          mountPath: "/opt/nvidia/deepstream/deepstream-6.1/samples/configs/deepstream-app/prod-config.txt"
+          subPath: config.txt
+        command: ["/usr/bin/deepstream-app"]
+        args: ["-c", "samples/configs/deepstream-app/prod-config.txt"]
+      volumes:
+      - name: deepstream-config
+        configMap:
+          name: deepstream-sample-app-config

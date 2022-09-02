@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepstream-sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepstream-sample-app
+  template:
+    metadata:
+      labels:
+        app: deepstream-sample-app
+    spec:
+      containers:
+      - name: deepstream-sample-app
+        image: nvcr.io/nvidia/deepstream:6.1-samples
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+        ports:
+          - containerPort: 8554
+            name: rtsp
+          - containerPort: 5400
+            name: rtp
